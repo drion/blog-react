@@ -18,16 +18,16 @@ export default function user(state = initialState, action) {
                 ...action.payload
             };
 
-        case (authenticationConstants.LOGIN_SUCCESS,
-        authenticationConstants.SIGNUP_SUCCESS):
+        case authenticationConstants.LOGIN_SUCCESS:
+        case authenticationConstants.SIGNUP_SUCCESS:
             return {
                 ...initialState,
                 ...action.user
             };
 
-        case (userConstants.GET_CURRENT_FAILURE,
-        authenticationConstants.LOGIN_FAILURE,
-        authenticationConstants.SIGNUP_FAILURE):
+        case userConstants.GET_CURRENT_FAILURE:
+        case authenticationConstants.LOGIN_FAILURE:
+        case authenticationConstants.SIGNUP_FAILURE:
             return { ...initialState };
         default:
             return state;

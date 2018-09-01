@@ -10,16 +10,13 @@ import rootReducer from "../_reducers";
 import authenticationMiddlewares from "../_middlewares/authentication.middlewares";
 
 export const configureStore = () => {
-    const persistedFilter = createFilter("authentication", [
-        "access",
-        "refresh"
-    ]);
+    const persistedFilter = createFilter("authentication", ["token"]);
 
     const loggerMiddleware = createLogger();
     const reducer = persistReducer(
         {
-            key: "ai",
-            whitelist: ["authentication"],
+            key: "blog",
+            whitelist: ["authentication", "user"],
             transforms: [persistedFilter],
             storage
         },
