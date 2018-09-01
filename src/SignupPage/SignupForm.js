@@ -23,11 +23,12 @@ const styles = theme => ({
     }
 });
 
-class LoginForm extends React.Component {
+class SignupForm extends React.Component {
     state = {
         data: {
             username: "",
-            password: ""
+            password: "",
+            passwordRepeat: ""
         },
         loading: false,
         errors: {}
@@ -45,7 +46,8 @@ class LoginForm extends React.Component {
         this.setState({ errors });
         if (Object.keys(errors).length === 0) {
             this.setState({ loading: true });
-            this.props.onSubmit(this.state.data).catch(err =>
+            const { username, password } = this.state.data;
+            this.props.onSubmit({ username, password }).catch(err =>
                 this.setState({
                     errors: err.response.data.errors,
                     loading: false
@@ -56,12 +58,19 @@ class LoginForm extends React.Component {
 
     validate = data => {
         const errors = {};
-        const { username, password } = data;
+        const { username, password, passwordRepeat } = data;
 
         if (!username || !username.length)
             errors.username = "Username is required";
+
         if (!password || !password.length)
             errors.password = "Password is required";
+
+        if (!passwordRepeat || !passwordRepeat.length)
+            errors.passwordRepeat = "Password is required";
+
+        if (password && passwordRepeat && password !== passwordRepeat)
+            errors.passwordRepeat = "Passwords don`t match";
 
         return errors;
     };
@@ -93,21 +102,32 @@ class LoginForm extends React.Component {
                     onChange={this.onChange}
                     margin="normal"
                 />
+                <TextField
+                    id="passwordRepeat"
+                    label="Password repeat"
+                    name="passwordRepeat"
+                    type="password"
+                    value={data.passwordRepeat}
+                    className={classes.textField}
+                    error={Boolean(errors.passwordRepeat)}
+                    onChange={this.onChange}
+                    margin="normal"
+                />
                 <Button
                     type="submit"
                     variant="contained"
                     color="primary"
                     className={classes.button}
                 >
-                    Login
+                    Signup
                 </Button>
             </form>
         );
     }
 }
 
-LoginForm.propTypes = {
+SignupForm.propTypes = {
     onSubmit: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(SignupForm);
