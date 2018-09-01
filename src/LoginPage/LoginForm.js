@@ -18,13 +18,17 @@ const styles = theme => ({
 
     button: {
         maxWidth: 156,
+        marginTop: 12,
         width: "100%"
     }
 });
 
 class LoginPage extends React.Component {
     state = {
-        data: {},
+        data: {
+            username: "",
+            password: ""
+        },
         loading: false,
         errors: {}
     };
@@ -41,7 +45,7 @@ class LoginPage extends React.Component {
         this.setState({ errors });
         if (Object.keys(errors).length === 0) {
             this.setState({ loading: true });
-            this.props.submit(this.state.data).catch(err =>
+            this.props.onSubmit(this.state.data).catch(err =>
                 this.setState({
                     errors: err.response.data.errors,
                     loading: false
@@ -52,6 +56,13 @@ class LoginPage extends React.Component {
 
     validate = data => {
         const errors = {};
+        const { username, password } = data;
+
+        if (!username || !username.length)
+            errors.username = "Username is required";
+        if (!password || !password.length)
+            errors.password = "Password is required";
+
         return errors;
     };
 
@@ -62,28 +73,33 @@ class LoginPage extends React.Component {
         return (
             <form onSubmit={this.onSubmit} className={classes.form}>
                 <TextField
-                    required
                     id="username"
                     label="Username"
                     name="username"
                     className={classes.textField}
+                    error={Boolean(errors.username)}
+                    value={data.username}
+                    onChange={this.onChange}
                     margin="normal"
                 />
                 <TextField
-                    required
                     id="password"
                     label="Password"
                     name="password"
                     type="password"
+                    value={data.password}
                     className={classes.textField}
+                    error={Boolean(errors.password)}
+                    onChange={this.onChange}
                     margin="normal"
                 />
                 <Button
+                    type="submit"
                     variant="contained"
                     color="primary"
                     className={classes.button}
                 >
-                    Submit
+                    Login
                 </Button>
             </form>
         );
@@ -91,7 +107,7 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-    submit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(LoginPage);

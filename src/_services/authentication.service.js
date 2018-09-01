@@ -1,15 +1,10 @@
 import axios from "axios";
 
-const handleResponse = response =>
-    response.status === 200
-        ? response.data
-        : Promise.reject(response.statusText);
-
-const refreshJWT = refresh =>
-    axios.post("/api/token/refresh/", { refresh }).then(handleResponse);
+const login = data =>
+    axios.post("/api/auth/login/", data).then(res => res.data);
 
 const authenticationService = {
-    refreshJWT
+    login
 };
 
 export default authenticationService;

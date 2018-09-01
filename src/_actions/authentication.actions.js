@@ -1,44 +1,40 @@
 import authenticationConstants from "../_constants/authentication.constants";
 import authenticationService from "../_services/authentication.service";
+import history from "../_helpers/history";
 
-function refreshToken(dispatch) {
-    function request(freshTokenPromise) {
-        return {
-            type: authenticationConstants.JWT_REFRESH_REQUEST,
-            freshTokenPromise
-        };
+function login(username, password) {
+    function request() {
+        return { type: authenticationConstants.LOGIN_REQUEST };
     }
 
     function success(payload) {
-        return {
-            type: authenticationConstants.JWT_REFRESH_SUCCESS,
-            ...payload
-        };
+        return { type: authenticationConstants.LOGIN_SUCCESS, ...payload };
     }
 
     function failure(error) {
-        return { type: authenticationConstants.JWT_REFRESH_FAILURE, error };
+        return { type: authenticationConstants.LOGIN_FAILURE, error };
     }
 
-    const auth = JSON.parse(
-        JSON.parse(localStorage.getItem("persist:ai")).authentication
-    );
+    return dispatch => {
+        dispatch(request({ username }));
 
-    const freshTokenPromise = authenticationService
-        .refreshJWT(auth.refresh)
-        .then(payload => {
-            dispatch(success(payload));
-            return payload;
-        })
-        .catch(error => dispatch(failure(error)));
+        return authenticationService.login(username, password).then(
+            payload => {
+                dispatch(success(payload));
+                history.push("/");
+            },
+            error => dispatch(failure(error))
+        );
+    };
+}
 
-    dispatch(request(freshTokenPromise));
-
-    return freshTokenPromise;
+function logout() {
+    return { type: authenticationConstants.LOGOUT };
 }
 
 const authenticationActions = {
-    refreshToken
+    login,
+    logout
 };
 
 export default authenticationActions;
