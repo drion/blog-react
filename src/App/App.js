@@ -7,6 +7,7 @@ import HomePage from "../HomePage/HomePage";
 import LoginPage from "../LoginPage/LoginPage";
 import SignupPage from "../SignupPage/SignupPage";
 import UserPage from "../UserPage/UserPage";
+import NewPostPage from "../NewPostPage/NewPostPage";
 
 const App = ({ location }) => (
     <div className="container">
@@ -24,6 +25,12 @@ const App = ({ location }) => (
             exact
             path="/users/:id"
             component={UserPage}
+        />
+        <Route
+            location={location}
+            exact
+            path="/posts/new"
+            component={NewPostPage}
         />
     </div>
 );

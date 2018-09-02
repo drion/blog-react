@@ -68,7 +68,10 @@ class PostsList extends React.Component {
                             {post.title}
                         </Link>
                     </Typography>
-                    <Typography component="p">{post.text}</Typography>
+                    <Typography
+                        component="p"
+                        dangerouslySetInnerHTML={{ __html: post.text }}
+                    />
                 </Paper>
             ));
         return <div className={classes.root}>{postsList}</div>;

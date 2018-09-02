@@ -47,6 +47,31 @@ function getUserPosts(id) {
         return postService.getUserPosts(id).then(
             payload => {
                 dispatch(success(payload));
+            },
+            error => dispatch(failure(error))
+        );
+    };
+}
+
+function createPost(data) {
+    function request() {
+        return { type: postConstants.CREATE_POST_REQUEST };
+    }
+
+    function success(post) {
+        return { type: postConstants.CREATE_POST_SUCCESS, post };
+    }
+
+    function failure(error) {
+        return { type: postConstants.CREATE_POST_FAILURE, error };
+    }
+
+    return dispatch => {
+        dispatch(request());
+
+        return postService.createPost(data).then(
+            payload => {
+                dispatch(success(payload));
                 return payload;
             },
             error => dispatch(failure(error))
@@ -56,7 +81,8 @@ function getUserPosts(id) {
 
 const postActions = {
     getAllPosts,
-    getUserPosts
+    getUserPosts,
+    createPost
 };
 
 export default postActions;

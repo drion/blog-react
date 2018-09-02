@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import userActions from "../_actions/user.actions";
 import postActions from "../_actions/post.actions";
 import { getShowUser, getAllUserPosts, getCurrentUser } from "../_reducers/";
+import history from "../_helpers/history";
 
 import PostsList from "../HomePage/PostsList";
 
@@ -38,7 +39,11 @@ class UserPage extends React.Component {
                 <div className={classes.pageHeader}>
                     <h1>{showUser.username} posts</h1>
                     {currentUser.id == this.props.match.params.id && (
-                        <Button variant="contained" className={classes.button}>
+                        <Button
+                            variant="contained"
+                            className={classes.button}
+                            onClick={() => history.push("/posts/new")}
+                        >
                             Add post
                         </Button>
                     )}

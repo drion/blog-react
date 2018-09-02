@@ -4,5 +4,10 @@ export default function authHeader() {
     const state = store.getState();
     const auth = state.authentication;
 
-    return auth && auth.access ? { Authorization: `Token ${auth.token}` } : {};
+    return auth && auth.token
+        ? {
+              Authorization: `Token ${auth.token}`,
+              "Content-Type": "application/json"
+          }
+        : {};
 }
