@@ -3,11 +3,13 @@ import { combineReducers } from "redux";
 import authentication, * as fromAuthentication from "./authentication.reducer";
 import user, * as fromUsers from "./user.reducer";
 import posts, * as fromPosts from "./post.reducer";
+import userPosts, * as fromUserPosts from "./userPost.reducer";
 
 const rootReducer = combineReducers({
     authentication,
     user,
-    posts
+    posts,
+    userPosts
 });
 
 export default rootReducer;
@@ -32,3 +34,16 @@ export const getPostsIsLoading = state =>
     fromPosts.getPostsIsLoading(state.posts);
 
 export const getPostsById = state => fromPosts.getPostsById(state.posts);
+
+// User posts
+export const getAllUserPosts = state =>
+    fromUserPosts.getAllUserPosts(state.userPosts);
+
+export const retrieveUserPost = (state, id) =>
+    fromUserPosts.retrieveUserPost(state.userPosts, id);
+
+export const getUserPostsIsLoading = state =>
+    fromUserPosts.getUserPostsIsLoading(state.userPosts);
+
+export const getUserPostsById = state =>
+    fromUserPosts.getUserPostsById(state.userPosts);

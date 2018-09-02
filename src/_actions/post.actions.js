@@ -27,8 +27,36 @@ function getAllPosts() {
     };
 }
 
+function getUserPosts(id) {
+    function request() {
+        return { type: postConstants.GET_USER_POSTS_REQUEST };
+    }
+
+    function success(payload) {
+        console.log(payload);
+        return { type: postConstants.GET_USER_POSTS_SUCCESS, payload };
+    }
+
+    function failure(error) {
+        return { type: postConstants.GET_USER_POSTS_FAILURE, error };
+    }
+
+    return dispatch => {
+        dispatch(request());
+
+        return postService.getUserPosts(id).then(
+            payload => {
+                dispatch(success(payload));
+                return payload;
+            },
+            error => dispatch(failure(error))
+        );
+    };
+}
+
 const postActions = {
-    getAllPosts
+    getAllPosts,
+    getUserPosts
 };
 
 export default postActions;
