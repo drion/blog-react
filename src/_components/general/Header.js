@@ -109,6 +109,14 @@ class MenuAppBar extends React.Component {
                                             Profile
                                         </Link>
                                     </MenuItem>
+                                    <MenuItem onClick={this.handleClose}>
+                                        <Link
+                                            to={`/posts/new`}
+                                            className={classes.link}
+                                        >
+                                            Add post
+                                        </Link>
+                                    </MenuItem>
                                     <MenuItem onClick={this.props.logout}>
                                         Logout
                                     </MenuItem>

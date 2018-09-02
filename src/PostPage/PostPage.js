@@ -13,7 +13,7 @@ import Divider from "@material-ui/core/Divider";
 
 import postActions from "../_actions/post.actions";
 
-import { getAllComments, retrievePost } from "../_reducers/";
+import { getAllComments, retrievePost, isAuthenticated } from "../_reducers/";
 
 const styles = {
     root: {
@@ -71,7 +71,7 @@ class PostPage extends React.Component {
             .then(() => this.setState({ comment: "" }));
 
     render() {
-        const { post, comments, classes } = this.props;
+        const { post, comments, classes, isAuthenticated } = this.props;
         return (
             <div className={classes.root}>
                 {post && (
@@ -144,28 +144,32 @@ class PostPage extends React.Component {
                         )}
                     </div>
                 )}
-                <TextField
-                    id="comment"
-                    label="Leave comment"
-                    multiline
-                    rows={5}
-                    value={this.state.comment}
-                    onChange={this.handleChange("comment")}
-                    className={classes.textField}
-                    margin="normal"
-                    fullWidth
-                />
-                <div className={classes.buttons}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        onClick={this.handleComment}
-                        disabled={!this.state.comment}
-                    >
-                        Leave comment
-                    </Button>
-                </div>
+                {isAuthenticated && (
+                    <TextField
+                        id="comment"
+                        label="Leave comment"
+                        multiline
+                        rows={5}
+                        value={this.state.comment}
+                        onChange={this.handleChange("comment")}
+                        className={classes.textField}
+                        margin="normal"
+                        fullWidth
+                    />
+                )}
+                {isAuthenticated && (
+                    <div className={classes.buttons}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            onClick={this.handleComment}
+                            disabled={!this.state.comment}
+                        >
+                            Leave comment
+                        </Button>
+                    </div>
+                )}
             </div>
         );
     }
@@ -173,7 +177,8 @@ class PostPage extends React.Component {
 
 const mapStateToProps = (state, props) => ({
     comments: getAllComments(state),
-    post: retrievePost(state, props.match.params.id)
+    post: retrievePost(state, props.match.params.id),
+    isAuthenticated: isAuthenticated(state)
 });
 
 export default withStyles(styles)(
