@@ -32,3 +32,5 @@ export default function authentication(state = initialState, action) {
             return state;
     }
 }
+
+export const isAuthenticated = state => state.token;

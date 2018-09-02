@@ -1,9 +1,26 @@
 import React from "react";
 
-const HomePage = () => (
-    <div>
-        <h1>Hello world</h1>
-    </div>
-);
+import { connect } from "react-redux";
 
-export default HomePage;
+import postActions from "../_actions/post.actions";
+
+class HomePage extends React.Component {
+    state = {};
+
+    componentDidMount() {
+        this.props.getAllPosts();
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Hello world</h1>
+            </div>
+        );
+    }
+}
+
+export default connect(
+    null,
+    { getAllPosts: postActions.getAllPosts }
+)(HomePage);
