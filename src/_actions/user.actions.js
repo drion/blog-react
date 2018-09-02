@@ -27,8 +27,35 @@ function getCurrentUser() {
     };
 }
 
+function getShowUser(id) {
+    function request() {
+        return { type: userConstants.GET_SHOW_USER_REQUEST };
+    }
+
+    function success(payload) {
+        return { type: userConstants.GET_SHOW_USER_SUCCESS, payload };
+    }
+
+    function failure(error) {
+        return { type: userConstants.GET_SHOW_USER_FAILURE, error };
+    }
+
+    return dispatch => {
+        dispatch(request());
+
+        return userService.getUser(id).then(
+            payload => {
+                dispatch(success(payload));
+                return payload;
+            },
+            error => dispatch(failure(error))
+        );
+    };
+}
+
 const userActions = {
-    getCurrentUser
+    getCurrentUser,
+    getShowUser
 };
 
 export default userActions;

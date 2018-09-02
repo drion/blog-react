@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
 import authentication, * as fromAuthentication from "./authentication.reducer";
-import user from "./user.reducer";
+import user, * as fromUsers from "./user.reducer";
 import posts, * as fromPosts from "./post.reducer";
 
 const rootReducer = combineReducers({
@@ -12,10 +12,14 @@ const rootReducer = combineReducers({
 
 export default rootReducer;
 
-// User
+// Auth
 
 export const isAuthenticated = state =>
     fromAuthentication.isAuthenticated(state.authentication);
+
+// User
+
+export const getShowUser = state => fromUsers.getShowUser(state.user);
 
 // Posts selectors
 

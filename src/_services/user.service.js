@@ -5,8 +5,11 @@ import authHeader from "../_helpers/auth-header";
 const getCurrentUser = () =>
     axios.get("/api/users/me/", { headers: authHeader() });
 
+const getUser = id => axios.get(`/api/users/${id}/`).then(res => res.data);
+
 const userService = {
-    getCurrentUser
+    getCurrentUser,
+    getUser
 };
 
 export default userService;
