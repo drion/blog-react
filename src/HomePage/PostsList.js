@@ -2,14 +2,10 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 
-import { connect } from "react-redux";
-
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-
-import { getAllPosts } from "../_reducers/";
 
 const styles = {
     root: {
@@ -79,8 +75,4 @@ class PostsList extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    posts: getAllPosts(state)
-});
-
-export default withStyles(styles)(connect(mapStateToProps)(PostsList));
+export default withStyles(styles)(PostsList);

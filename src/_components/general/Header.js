@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 
+import { Link } from "react-router-dom";
+
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -15,7 +17,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 
-import { isAuthenticated } from "../../_reducers/index";
+import { isAuthenticated, getCurrentUser } from "../../_reducers";
 
 const styles = {
     root: {
@@ -30,6 +32,14 @@ const styles = {
     menuButton: {
         marginLeft: -12,
         marginRight: 20
+    },
+    link: {
+        textDecoration: "none",
+        color: "#111"
+    },
+    headerLink: {
+        textDecoration: "none",
+        color: "#fff"
     }
 };
 
@@ -47,7 +57,7 @@ class MenuAppBar extends React.Component {
     };
 
     render() {
-        const { classes, auth } = this.props;
+        const { classes, auth, user } = this.props;
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
 
@@ -60,7 +70,9 @@ class MenuAppBar extends React.Component {
                             color="inherit"
                             className={classes.flex}
                         >
-                            MyBlog
+                            <Link to="/" className={classes.headerLink}>
+                                MyBlog
+                            </Link>
                         </Typography>
                         {auth && (
                             <div>
@@ -87,10 +99,15 @@ class MenuAppBar extends React.Component {
                                     onClose={this.handleClose}
                                 >
                                     <MenuItem onClick={this.handleClose}>
-                                        Profile
+                                        <Link
+                                            to={`/users/${user.id}`}
+                                            className={classes.link}
+                                        >
+                                            Profile
+                                        </Link>
                                     </MenuItem>
                                     <MenuItem onClick={this.handleClose}>
-                                        My account
+                                        Logout
                                     </MenuItem>
                                 </Menu>
                             </div>
@@ -107,7 +124,8 @@ MenuAppBar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    auth: isAuthenticated(state)
+    auth: isAuthenticated(state),
+    user: getCurrentUser(state)
 });
 
 export default withStyles(styles)(connect(mapStateToProps)(MenuAppBar));

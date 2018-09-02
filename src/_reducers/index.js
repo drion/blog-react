@@ -23,6 +23,8 @@ export const isAuthenticated = state =>
 
 export const getShowUser = state => fromUsers.getShowUser(state.user);
 
+export const getCurrentUser = state => fromUsers.getCurrentUser(state.user);
+
 // Posts selectors
 
 export const getAllPosts = state => fromPosts.getAllPosts(state.posts);

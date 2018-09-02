@@ -67,3 +67,5 @@ export default user;
 
 export const getShowUser = state => state.show;
 
+export const getCurrentUser = state => state.current;
+

@@ -2,9 +2,20 @@ import React from "react";
 
 import { connect } from "react-redux";
 
+import { withStyles } from "@material-ui/core/styles";
+
 import userActions from "../_actions/user.actions";
 import postActions from "../_actions/post.actions";
 import { getShowUser, getAllUserPosts } from "../_reducers/";
+
+import PostsList from "../HomePage/PostsList";
+
+const styles = {
+    root: {
+        maxWidth: 700,
+        margin: "0 auto"
+    }
+};
 
 class UserPage extends React.Component {
     state = {};
@@ -15,12 +26,15 @@ class UserPage extends React.Component {
     }
 
     render() {
-        const { showUser } = this.props;
+        const { showUser, posts, classes } = this.props;
         return showUser.isLoading ? null : (
-            <div>
+            <div className={classes.root}>
                 <h1>{showUser.username} posts</h1>
-                <p />
-                <p>Posts</p>
+                {posts.length > 0 ? (
+                    <PostsList posts={posts} />
+                ) : (
+                    <p>No posts to show</p>
+                )}
             </div>
         );
     }
@@ -31,10 +45,12 @@ const mapStateToProps = state => ({
     posts: getAllUserPosts(state)
 });
 
-export default connect(
-    mapStateToProps,
-    {
-        getShowUser: userActions.getShowUser,
-        getUserPosts: postActions.getUserPosts
-    }
-)(UserPage);
+export default withStyles(styles)(
+    connect(
+        mapStateToProps,
+        {
+            getShowUser: userActions.getShowUser,
+            getUserPosts: postActions.getUserPosts
+        }
+    )(UserPage)
+);
