@@ -16,6 +16,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import Button from "@material-ui/core/Button";
+
+import authenticationActions from "../../_actions/authentication.actions";
 
 import { isAuthenticated, getCurrentUser } from "../../_reducers";
 
@@ -74,7 +77,7 @@ class MenuAppBar extends React.Component {
                                 MyBlog
                             </Link>
                         </Typography>
-                        {auth && (
+                        {auth ? (
                             <div>
                                 <IconButton
                                     aria-owns={open ? "menu-appbar" : null}
@@ -106,11 +109,20 @@ class MenuAppBar extends React.Component {
                                             Profile
                                         </Link>
                                     </MenuItem>
-                                    <MenuItem onClick={this.handleClose}>
+                                    <MenuItem onClick={this.props.logout}>
                                         Logout
                                     </MenuItem>
                                 </Menu>
                             </div>
+                        ) : (
+                            <Button>
+                                <Link
+                                    to="/login"
+                                    className={classes.headerLink}
+                                >
+                                    Login
+                                </Link>
+                            </Button>
                         )}
                     </Toolbar>
                 </AppBar>
@@ -128,4 +140,9 @@ const mapStateToProps = state => ({
     user: getCurrentUser(state)
 });
 
-export default withStyles(styles)(connect(mapStateToProps)(MenuAppBar));
+export default withStyles(styles)(
+    connect(
+        mapStateToProps,
+        { logout: authenticationActions.logout }
+    )(MenuAppBar)
+);
