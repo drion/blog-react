@@ -1,0 +1,7 @@
+const postConstants = {
+    GET_ALL_POSTS_REQUEST: "GET_ALL_POSTS_REQUEST",
+    GET_ALL_POSTS_SUCCESS: "GET_ALL_POSTS_SUCCESS",
+    GET_ALL_POSTS_FAILURE: "GET_ALL_POSTS_FAILURE"
+};
+
+export default postConstants;
