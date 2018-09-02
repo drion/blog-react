@@ -14,6 +14,15 @@ export const byId = (state = {}, action) => {
             return nextState;
         }
 
+        case postConstants.CREATE_COMMENT_SUCCESS: {
+            console.log(action);
+            const nextState = { ...state };
+            const { comment } = action;
+            nextState[comment.id] = comment;
+
+            return nextState;
+        }
+
         case userConstants.LOGOUT:
             return {};
 
@@ -26,6 +35,9 @@ export const allIds = (state = [], action) => {
     switch (action.type) {
         case postConstants.GET_POST_COMMENTS_SUCCESS:
             return action.payload.map(post => post.id);
+
+        case postConstants.CREATE_COMMENT_SUCCESS:
+            return [...state, action.comment.id];
 
         case userConstants.LOGOUT:
             return [];

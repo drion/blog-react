@@ -105,11 +105,38 @@ function getPostComments(id) {
     };
 }
 
+function createComment(data) {
+    function request() {
+        return { type: postConstants.CREATE_COMMENT_REQUEST };
+    }
+
+    function success(comment) {
+        return { type: postConstants.CREATE_COMMENT_SUCCESS, comment };
+    }
+
+    function failure(error) {
+        return { type: postConstants.CREATE_COMMENT_FAILURE, error };
+    }
+
+    return dispatch => {
+        dispatch(request());
+
+        return postService.createComment(data).then(
+            payload => {
+                dispatch(success(payload));
+                return payload;
+            },
+            error => dispatch(failure(error))
+        );
+    };
+}
+
 const postActions = {
     getAllPosts,
     getUserPosts,
     createPost,
-    getPostComments
+    getPostComments,
+    createComment
 };
 
 export default postActions;

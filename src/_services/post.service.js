@@ -17,12 +17,20 @@ const createPost = data =>
         .post("/api/posts/", data, { headers: authHeader() })
         .then(res => res.data);
 
+const createComment = data =>
+    axios
+        .post(`/api/posts/${data.post}/comments/`, data, {
+            headers: authHeader()
+        })
+        .then(res => res.data);
+
 const postService = {
     getAllPosts,
     getUserPosts,
     createPost,
     getPost,
-    getPostComments
+    getPostComments,
+    createComment
 };
 
 export default postService;

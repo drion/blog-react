@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -17,6 +19,9 @@ const styles = {
     root: {
         width: 600,
         margin: "24px auto"
+    },
+    buttons: {
+        textAlign: "right"
     },
     paper: {
         padding: "4px 12px",
@@ -42,12 +47,28 @@ const styles = {
 };
 
 class PostPage extends React.Component {
-    state = {};
+    state = {
+        comment: ""
+    };
 
     componentDidMount() {
         this.props.getAllPosts();
         this.props.getPostComments(this.props.match.params.id);
     }
+
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value
+        });
+    };
+
+    handleComment = () =>
+        this.props
+            .createComment({
+                text: this.state.comment,
+                post: this.props.match.params.id
+            })
+            .then(() => this.setState({ comment: "" }));
 
     render() {
         const { post, comments, classes } = this.props;
@@ -123,6 +144,28 @@ class PostPage extends React.Component {
                         )}
                     </div>
                 )}
+                <TextField
+                    id="comment"
+                    label="Leave comment"
+                    multiline
+                    rows={5}
+                    value={this.state.comment}
+                    onChange={this.handleChange("comment")}
+                    className={classes.textField}
+                    margin="normal"
+                    fullWidth
+                />
+                <div className={classes.buttons}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        onClick={this.handleComment}
+                        disabled={!this.state.comment}
+                    >
+                        Leave comment
+                    </Button>
+                </div>
             </div>
         );
     }
@@ -138,7 +181,8 @@ export default withStyles(styles)(
         mapStateToProps,
         {
             getAllPosts: postActions.getAllPosts,
-            getPostComments: postActions.getPostComments
+            getPostComments: postActions.getPostComments,
+            createComment: postActions.createComment
         }
     )(PostPage)
 );
