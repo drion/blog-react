@@ -10,12 +10,20 @@ import UserPage from "../UserPage/UserPage";
 import NewPostPage from "../NewPostPage/NewPostPage";
 import PostPage from "../PostPage/PostPage";
 
+import GuestRoute from "../_components/routes/GuestRoute";
+import PrivateRoute from "../_components/routes/PrivateRoute";
+
 const App = ({ location }) => (
     <div className="container">
         <Header />
         <Route location={location} exact path="/" component={HomePage} />
-        <Route location={location} exact path="/login" component={LoginPage} />
-        <Route
+        <GuestRoute
+            location={location}
+            exact
+            path="/login"
+            component={LoginPage}
+        />
+        <GuestRoute
             location={location}
             exact
             path="/signup"

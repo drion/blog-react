@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 
+import { Link } from "react-router-dom";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
@@ -113,6 +115,7 @@ class SignupForm extends React.Component {
                     onChange={this.onChange}
                     margin="normal"
                 />
+                <Link to="/login">Login</Link>
                 <Button
                     type="submit"
                     variant="contained"
