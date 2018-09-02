@@ -7,6 +7,11 @@ const getAllPosts = () => axios.get("/api/posts/").then(res => res.data);
 const getUserPosts = id =>
     axios.get(`/api/users/${id}/posts/`).then(res => res.data);
 
+const getPost = id => axios.get(`/api/post/${id}/`).then(res => res.data);
+
+const getPostComments = id =>
+    axios.get(`/api/posts/${id}/comments/`).then(res => res.data);
+
 const createPost = data =>
     axios
         .post("/api/posts/", data, { headers: authHeader() })
@@ -15,7 +20,9 @@ const createPost = data =>
 const postService = {
     getAllPosts,
     getUserPosts,
-    createPost
+    createPost,
+    getPost,
+    getPostComments
 };
 
 export default postService;

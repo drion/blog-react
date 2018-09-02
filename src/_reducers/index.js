@@ -4,12 +4,14 @@ import authentication, * as fromAuthentication from "./authentication.reducer";
 import user, * as fromUsers from "./user.reducer";
 import posts, * as fromPosts from "./post.reducer";
 import userPosts, * as fromUserPosts from "./userPost.reducer";
+import comments, * as fromComments from "./comments.reducer";
 
 const rootReducer = combineReducers({
     authentication,
     user,
     posts,
-    userPosts
+    userPosts,
+    comments
 });
 
 export default rootReducer;
@@ -49,3 +51,8 @@ export const getUserPostsIsLoading = state =>
 
 export const getUserPostsById = state =>
     fromUserPosts.getUserPostsById(state.userPosts);
+
+// Comments
+
+export const getAllComments = state =>
+    fromComments.getAllComments(state.comments);

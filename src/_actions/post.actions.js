@@ -79,10 +79,37 @@ function createPost(data) {
     };
 }
 
+function getPostComments(id) {
+    function request() {
+        return { type: postConstants.GET_POST_COMMENTS_REQUEST };
+    }
+
+    function success(payload) {
+        return { type: postConstants.GET_POST_COMMENTS_SUCCESS, payload };
+    }
+
+    function failure(error) {
+        return { type: postConstants.GET_POST_COMMENTS_FAILURE, error };
+    }
+
+    return dispatch => {
+        dispatch(request());
+
+        return postService.getPostComments(id).then(
+            payload => {
+                dispatch(success(payload));
+                return payload;
+            },
+            error => dispatch(failure(error))
+        );
+    };
+}
+
 const postActions = {
     getAllPosts,
     getUserPosts,
-    createPost
+    createPost,
+    getPostComments
 };
 
 export default postActions;
