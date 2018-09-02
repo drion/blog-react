@@ -35,7 +35,7 @@ const App = ({ location }) => (
             path="/users/:id"
             component={UserPage}
         />
-        <Route
+        <PrivateRoute
             location={location}
             exact
             path="/posts/new"

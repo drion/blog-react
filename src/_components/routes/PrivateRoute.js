@@ -28,9 +28,7 @@ PrivateRoute.propTypes = {
 function mapStateToProps(state) {
     const { authentication } = state;
     return {
-        isAuthenticated: Boolean(
-            authentication.access && authentication.refresh
-        )
+        isAuthenticated: Boolean(authentication.token)
     };
 }
 
