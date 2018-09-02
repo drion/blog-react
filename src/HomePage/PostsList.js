@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
 import { connect } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -24,11 +26,17 @@ const styles = {
     paperHeader: {
         display: "flex",
         justifyContent: "space-between",
-        paddingBottom: 4
+        paddingBottom: 4,
+        textDecoration: "none",
+        color: "red !important"
     },
     divider: {
         width: 100,
         marginBottom: 12
+    },
+    link: {
+        textDecoration: "none",
+        color: "#777"
     }
 };
 
@@ -43,7 +51,12 @@ class PostsList extends React.Component {
                 <Paper className={classes.paper} elevation={1}>
                     <div className={classes.paperHeader}>
                         <Typography component="p">
-                            {post.owner.username}
+                            <Link
+                                to={`/users/${post.owner.id}`}
+                                className={classes.link}
+                            >
+                                {post.owner.username}
+                            </Link>
                         </Typography>
                         <Typography component="p">
                             {new Date(post.created_at)
@@ -55,7 +68,9 @@ class PostsList extends React.Component {
                     </div>
                     <Divider className={classes.divider} />
                     <Typography variant="headline" component="h3">
-                        {post.title}
+                        <Link to={`/posts/${post.id}`} className={classes.link}>
+                            {post.title}
+                        </Link>
                     </Typography>
                     <Typography component="p">{post.text}</Typography>
                 </Paper>
